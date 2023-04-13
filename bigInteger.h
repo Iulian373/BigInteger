@@ -152,7 +152,6 @@ void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInte
 BigInteger *bigInteger_modulo_new(BigInteger *bigInteger1, BigInteger *bigInteger2);
 
 
-
 ///My functions
 /**
  * @brief Shifts the digits of the bigInteger to the left by the specified number of digits (multiplies by 10^shift).
@@ -180,3 +179,19 @@ int bigInteger_absolut_compare(BigInteger *bigInteger1, BigInteger *bigInteger2)
  * @param bigInteger
  */
 void bigInteger_leading_zeros(BigInteger *bigInteger);
+
+/**
+ * @brief Computes bigInteger1 ^ power and store the result in the result parameter.
+ * @param bigInteger1 Reference to a bigInteger.
+ * @param power The power to which the bigInteger is raised.
+ * @param result Reference to a bigInteger. It could be another bigInteger or one of the parameters.
+ */
+void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result);
+
+/**
+ * @brief Computes bigInteger1 ^ power and returns a new bigInteger as result.
+ * @param bigInteger1 Reference to a bigInteger.
+ * @param power The power to which the bigInteger is raised.
+ * @return Reference to a bigInteger.
+ */
+BigInteger *bigInteger_power_new(BigInteger *bigInteger, int power);

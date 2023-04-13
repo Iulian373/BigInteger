@@ -3,6 +3,8 @@
 #include <string.h>
 #include "bigInteger.h"
 
+///It could be another bigInteger or one of the parameters. Did not implement this part!!! Have to do it later
+
 struct _BigInteger {
     int *digits;
     int sign;
@@ -192,7 +194,8 @@ void bigInteger_add(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger
             bigInteger2->sign = 1;
             bigInteger_subtract(bigInteger1, bigInteger2, result);
             bigInteger2->sign = -1;
-            if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == 1 || bigInteger_absolut_compare(bigInteger1, bigInteger2) == 0) {
+            int comp = bigInteger_absolut_compare(bigInteger1, bigInteger2);
+            if (comp == 1 || comp == 0) {
                 result->sign = 1;
             } else {
                 result->sign = -1;
@@ -216,13 +219,8 @@ void bigInteger_print(BigInteger *bigInteger) {
 }
 
 void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
-    int x = bigInteger1->sign, y = bigInteger2->sign;
     if (bigInteger1->sign == bigInteger2->sign) {
-        bigInteger1->sign = 1;//deoarece verific valoarea absoluta a numerelor
-        bigInteger2->sign = 1;
-        if (bigInteger_compare(bigInteger1, bigInteger2) == 1) {
-            bigInteger1->sign = x;//revin la semnele originale
-            bigInteger2->sign = y;
+        if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == 1) {
             result->sign = bigInteger1->sign;
             int size = bigInteger1->size;
             result->digits = realloc(result->digits, sizeof(int) * size);
@@ -247,9 +245,7 @@ void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigIn
                 }
             }
             bigInteger_leading_zeros(result);
-        } else if (bigInteger_compare(bigInteger1, bigInteger2) == -1) {
-            bigInteger1->sign = x;
-            bigInteger2->sign = y;
+        } else if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == -1) {
             result->sign = bigInteger2->sign * (-1);
             int size = bigInteger2->size;
             result->digits = realloc(result->digits, sizeof(int) * size);
@@ -275,8 +271,6 @@ void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigIn
             }
             bigInteger_leading_zeros(result);
         } else {
-            bigInteger1->sign = x;
-            bigInteger2->sign = y;
             result->sign = 1;
             result->digits = realloc(result->digits, sizeof(int));
             result->size = 1;
@@ -386,21 +380,13 @@ void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInte
         result->digits[0] = 0;
         return;
     } else {
-        int x = bigInteger1->sign;
-        int y = bigInteger2->sign;
-        bigInteger1->sign = 1;
-        bigInteger2->sign = 1;
-        if (bigInteger_compare(bigInteger1, bigInteger2) == -1) {
-            bigInteger1->sign = x;
-            bigInteger2->sign = y;
+        if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == -1) {
             result->sign = 1;
             result->digits = realloc(result->digits, sizeof(int));
             result->size = 1;
             result->digits[0] = 0;
             return;
         }
-        bigInteger1->sign = x;
-        bigInteger2->sign = y;
     }
     result->sign = bigInteger1->sign * bigInteger2->sign;
     int size = bigInteger1->size;
@@ -414,20 +400,17 @@ void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInte
     aux->size = 1;
     aux->sign = 1;
     aux->digits[0] = 0;
-    int x = bigInteger2->sign; //aceaasi bataie de cap ca la adunare si scadere, deoarece fac comparare
-    bigInteger2->sign = 1;
     for (int i = bigInteger1->size - 1; i >= 0; i--) {
         bigInteger_shift_left(aux, 1);
         aux->digits[0] = bigInteger1->digits[i];
         int j = 0;
-        while (bigInteger_compare(aux, bigInteger2) != -1) {
-            BigInteger *aux2 = bigInteger_clone(aux);//aici mi-am dat seama ca tebuie de clona
+        while (bigInteger_absolut_compare(aux, bigInteger2) != -1) {
+            BigInteger *aux2 = bigInteger_clone(aux);
             bigInteger_subtract(aux2, bigInteger2, aux);
             j++;
         }
         result->digits[i] = j;
     }
-    bigInteger2->sign = x;
     bigInteger_leading_zeros(result);
 }
 
@@ -482,4 +465,35 @@ void bigInteger_leading_zeros(BigInteger *bigInteger) {
         bigInteger->digits = realloc(bigInteger->digits, sizeof(int) * size);
         bigInteger->size = size;
     }
+}
+
+void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {
+    result->digits[0] = 1;
+    if (power == 0) {
+        result->digits = realloc(result->digits, sizeof(int));
+        result->size = 1;
+        result->digits[0] = 1;
+        return;
+    }
+    if (power == 1) {
+        result->digits = realloc(result->digits, sizeof(int) * bigInteger->size);
+        result->size = bigInteger->size;
+        for (int i = 0; i < bigInteger->size; i++) {
+            result->digits[i] = bigInteger->digits[i];
+        }
+        return;
+    }
+    for (int i = 0; i < power; i++) {
+        BigInteger *aux = bigInteger_clone(result);
+        bigInteger_multiply(aux, bigInteger, result);
+    }
+}
+
+BigInteger *bigInteger_power_new(BigInteger *bigInteger, int power) {
+    BigInteger *result = malloc(sizeof(BigInteger));
+    result->digits = malloc(sizeof(int));
+    result->size = 1;
+    result->digits[0] = 0;
+    bigInteger_power(bigInteger, power, result);
+    return result;
 }
