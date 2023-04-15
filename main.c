@@ -2,20 +2,38 @@
 #include <stdlib.h>
 #include "bigInteger.h"
 
+/**Tests format: test_<function_name>()
+ * from_string/assign/clone
+ * functions with
+ * 0 and 1 all cases
+ * positive and negative numbers all cases
+ * print/to_string
+ * delete
+*/
 void test_addition() {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_from_string("123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_add(bigInt1, bigInt2, bigInt3);
-    printf("Suma (bigInt1 + bigInt2): ");
-    bigInteger_print(bigInt3);
-    BigInteger *bigInt4 = bigInteger_add_new(bigInt1, bigInt2);
-    printf("Suma cu new (bigInt1 + bigInt2): ");
+    BigInteger *zero = bigInteger_from_string("0");
+    BigInteger *unu = bigInteger_from_string("1");
+    BigInteger  *minus_unu = bigInteger_from_string("-1");
+    BigInteger *suma = bigInteger_new();
+    bigInteger_add(zero, unu, suma);
+    printf("Suma (zero + unu): ");
+    bigInteger_print(suma);
+    BigInteger *suma_new = bigInteger_add_new(zero, unu);
+    printf("Suma cu new (zero + unu): ");
+    bigInteger_print(suma_new);
+
+    bigInteger_add(zero, unu, suma);
+    printf("Suma (zero + unu): ");
+    bigInteger_print(suma);
+    BigInteger *bigInt4 = bigInteger_add_new(zero, unu);
+    printf("Suma cu new (zero + unu): ");
     bigInteger_print(bigInt4);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
+
+    bigInteger_delete(zero);
+    bigInteger_delete(unu);
+    bigInteger_delete(minus_unu);
+    bigInteger_delete(suma);
+    bigInteger_delete(suma_new);
 }
 
 void test_subtraction() {

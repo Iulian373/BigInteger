@@ -13,8 +13,8 @@ struct _BigInteger {
 
 BigInteger *bigInteger_new() {
     BigInteger *bigInt = malloc(sizeof(BigInteger));
-    bigInt->digits = malloc(sizeof(int) * 1);
-    bigInt->size = 1;
+    bigInt->digits = malloc(sizeof(int) * 1); //initial size is 1, but it will be changed later
+    bigInt->size = 1; //it is for me to know that the size is 1
     bigInt->sign = 1; //default sign is positive
     for (int i = 0; i < bigInt->size; i++) {
         bigInt->digits[i] = 0;  //initialization with zeros
@@ -24,7 +24,7 @@ BigInteger *bigInteger_new() {
 
 void bigInteger_delete(BigInteger *bigInteger) {
     free(bigInteger->digits);
-    bigInteger->size = 0;
+    free(bigInteger);// or bigInteger->size = 0;
 }
 
 BigInteger *bigInteger_from_string(const char *numberAsString) {
@@ -156,7 +156,7 @@ int bigInteger_absolut_compare(BigInteger *bigInteger1, BigInteger *bigInteger2)
     }
 }
 
-void bigInteger_add(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+void bigInteger_add(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     if (bigInteger1->sign == bigInteger2->sign) {
         result->sign = bigInteger1->sign;
         int size = bigInteger1->size > bigInteger2->size ? bigInteger1->size : bigInteger2->size;
@@ -218,7 +218,7 @@ void bigInteger_print(BigInteger *bigInteger) {
     printf("\n");
 }
 
-void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     if (bigInteger1->sign == bigInteger2->sign) {
         if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == 1) {
             result->sign = bigInteger1->sign;
@@ -309,7 +309,7 @@ BigInteger *bigInteger_subtract_new(BigInteger *bigInteger1, BigInteger *bigInte
     return result;
 }
 
-void bigInteger_multiply(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+void bigInteger_multiply(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     if (bigInteger1->size == 0 || bigInteger2->size == 0) {
         result->size = 0;
         return;
@@ -369,7 +369,7 @@ void bigInteger_shift_left(BigInteger *bigInteger, int shift) {
     }
 }
 
-void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     if (bigInteger2->size == 1 && bigInteger2->digits[0] == 0) {
         printf("Division by zero!\n");
         return;
@@ -423,7 +423,7 @@ BigInteger *bigInteger_divide_new(BigInteger *bigInteger1, BigInteger *bigIntege
     return result;
 }
 
-void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     if (bigInteger2->size == 1 && bigInteger2->digits[0] == 0) {
         printf("Division by zero!\n");
         return;
@@ -467,7 +467,7 @@ void bigInteger_leading_zeros(BigInteger *bigInteger) {
     }
 }
 
-void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {
+void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
     result->digits[0] = 1;
     if (power == 0) {
         result->digits = realloc(result->digits, sizeof(int));

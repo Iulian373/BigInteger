@@ -136,8 +136,8 @@ BigInteger *bigInteger_divide_new(BigInteger *bigInteger1, BigInteger *bigIntege
 /**
  * @brief Computes bigInteger1 % bigInteger2 and store the result in the result parameter.
  *
- * @param bigInteger1 Reference to a bigInteger.
- * @param bigInteger2 Reference to a bigInteger.
+ * @param bigInteger1 Reference to a bigInteger. It could be negative.
+ * @param bigInteger2 Reference to a bigInteger. It could be negative.
  * @param result Reference to a bigInteger. It could be another bigInteger or one of the parameters.
  */
 void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result);
