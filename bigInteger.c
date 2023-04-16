@@ -406,7 +406,10 @@ void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInte
         int j = 0;
         while (bigInteger_absolut_compare(aux, bigInteger2) != -1) {
             BigInteger *aux2 = bigInteger_clone(aux);
+            int x = bigInteger2->sign;
+            bigInteger2->sign = 1;
             bigInteger_subtract(aux2, bigInteger2, aux);
+            bigInteger2->sign = x;
             j++;
         }
         result->digits[i] = j;

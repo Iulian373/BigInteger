@@ -1,221 +1,267 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bigInteger.h"
+///Trebuie de adaudgat posibilitatea de trimitere ca rezultat a unui din parametri
 
 /**Tests format: test_<function_name>()
- * from_string/assign/clone
- * functions with
+ * variables: new/from_string/assign/clone
+ * to_string
+ * compare
+ * functions with:
  * 0 and 1 all cases
  * positive and negative numbers all cases
- * print/to_string
+ * print
  * delete
 */
 void test_addition() {
-    BigInteger *zero = bigInteger_from_string("0");
+    //variable declarations
+    BigInteger *zero = bigInteger_new();
+    bigInteger_assign(zero, "0");
     BigInteger *unu = bigInteger_from_string("1");
     BigInteger  *minus_unu = bigInteger_from_string("-1");
     BigInteger *suma = bigInteger_new();
-    bigInteger_add(zero, unu, suma);
-    printf("Suma (zero + unu): ");
-    bigInteger_print(suma);
-    BigInteger *suma_new = bigInteger_add_new(zero, unu);
-    printf("Suma cu new (zero + unu): ");
-    bigInteger_print(suma_new);
+    BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
+    BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
+    BigInteger *minus_nr_mare = bigInteger_from_string("-123456789123456789");
+    BigInteger *minus_nr_mare2 = bigInteger_clone(minus_nr_mare);
+
+    char *str = bigInteger_to_string(nr_mare);
+    printf("Nr mare ca string: %s\n", str);
+    free(str);
+
+    printf("Comparare (nr_mare si minus_nr_mare): %d\n", bigInteger_compare(nr_mare, minus_nr_mare));
+    printf("Comparare a valorilor absolute (|nr_mare| si |minus_nr_mare|): %d\n", bigInteger_absolut_compare(nr_mare, minus_nr_mare));
 
     bigInteger_add(zero, unu, suma);
     printf("Suma (zero + unu): ");
     bigInteger_print(suma);
-    BigInteger *bigInt4 = bigInteger_add_new(zero, unu);
-    printf("Suma cu new (zero + unu): ");
-    bigInteger_print(bigInt4);
+    BigInteger *suma_new = bigInteger_add_new(unu, zero);
+    printf("Suma cu new (unu + zero): ");
+    bigInteger_print(suma_new);
+
+    bigInteger_add(zero, minus_unu, suma);
+    printf("Suma (zero + minus_unu): ");
+    bigInteger_print(suma);
+    suma_new = bigInteger_add_new(minus_unu, zero);
+    printf("Suma cu new (minus_unu + zero): ");
+    bigInteger_print(suma_new);
+
+    bigInteger_add(minus_nr_mare, minus_nr_mare, suma);
+    printf("Suma (minus_nr_mare + minus_nr_mare) - acelasi numar: ");
+    bigInteger_print(suma);
+
+    bigInteger_add(nr_mare, nr_mare2, suma);
+    printf("Suma (nr_mare + nr_mare2): ");
+    bigInteger_print(suma);
+    suma_new = bigInteger_add_new(nr_mare, minus_nr_mare);
+    printf("Suma cu new (nr_mare + minus_nr_mare): ");
+    bigInteger_print(suma_new);
+
+    bigInteger_add(minus_nr_mare, minus_nr_mare2, suma);
+    printf("Suma (minus_nr_mare + minus_nr_mare2): ");
+    bigInteger_print(suma);
+    suma_new = bigInteger_add_new(minus_nr_mare, nr_mare2);
+    printf("Suma cu new (minus_nr_mare + nr_mare2): ");
+    bigInteger_print(suma_new);
 
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
     bigInteger_delete(suma);
+    bigInteger_delete(nr_mare);
+    bigInteger_delete(nr_mare2);
+    bigInteger_delete(minus_nr_mare);
+    bigInteger_delete(minus_nr_mare2);
     bigInteger_delete(suma_new);
 }
 
 void test_subtraction() {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_from_string("123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_subtract(bigInt1, bigInt2, bigInt3);
-    printf("Diferenta (bigInt1 - bigInt2): ");
-    bigInteger_print(bigInt3);
-    BigInteger *bigInt4 = bigInteger_subtract_new(bigInt1, bigInt2);
-    printf("Diferenta cu new (bigInt1 - bigInt2): ");
-    bigInteger_print(bigInt4);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
+    //variable declarations
+    BigInteger *zero = bigInteger_new();
+    bigInteger_assign(zero, "0");
+    BigInteger *unu = bigInteger_from_string("1");
+    BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *diferenta = bigInteger_new();
+    BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
+    BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
+    BigInteger *minus_nr_mare = bigInteger_from_string("-123456789123456789");
+    BigInteger *minus_nr_mare2 = bigInteger_clone(minus_nr_mare);
+
+    char *str = bigInteger_to_string(nr_mare);
+    printf("Nr mare ca string: %s\n", str);
+    free(str);
+
+    printf("Comparare (nr_mare si minus_nr_mare): %d\n", bigInteger_compare(nr_mare, minus_nr_mare));
+    printf("Comparare a valorilor absolute (|nr_mare| si |minus_nr_mare|): %d\n",bigInteger_absolut_compare(nr_mare, minus_nr_mare));
+
+    bigInteger_subtract(zero, unu, diferenta);
+    printf("Diferenta (zero - unu): ");
+    bigInteger_print(diferenta);
+    BigInteger *diferenta_new = bigInteger_subtract_new(unu, zero);
+    printf("Diferenta cu new (unu - zero): ");
+    bigInteger_print(diferenta_new);
+
+    bigInteger_subtract(zero, minus_unu, diferenta);
+    printf("Diferenta (zero - minus_unu): ");
+    bigInteger_print(diferenta);
+    diferenta_new = bigInteger_subtract_new(minus_unu, zero);
+    printf("Diferenta cu new (minus_unu - zero): ");
+    bigInteger_print(diferenta_new);
+
+    bigInteger_subtract(minus_nr_mare, minus_nr_mare, diferenta);
+    printf("Diferenta (minus_nr_mare - minus_nr_mare) - acelasi numar: ");
+    bigInteger_print(diferenta);
+
+    bigInteger_subtract(nr_mare, nr_mare2, diferenta);
+    printf("Diferenta (nr_mare - nr_mare2): ");
+    bigInteger_print(diferenta);
+    diferenta_new = bigInteger_subtract_new(nr_mare, minus_nr_mare);
+    printf("Diferenta cu new (nr_mare - minus_nr_mare): ");
+    bigInteger_print(diferenta_new);
+
+    bigInteger_subtract(minus_nr_mare, minus_nr_mare2, diferenta);
+    printf("Diferenta (minus_nr_mare - minus_nr_mare2): ");
+    bigInteger_print(diferenta);
+    diferenta_new = bigInteger_subtract_new(minus_nr_mare, nr_mare2);
+    printf("Diferenta cu new (minus_nr_mare - nr_mare2): ");
+    bigInteger_print(diferenta_new);
+
+    bigInteger_delete(zero);
+    bigInteger_delete(unu);
+    bigInteger_delete(minus_unu);
+    bigInteger_delete(diferenta);
+    bigInteger_delete(nr_mare);
+    bigInteger_delete(nr_mare2);
+    bigInteger_delete(minus_nr_mare);
+    bigInteger_delete(minus_nr_mare2);
+    bigInteger_delete(diferenta_new);
 }
 
 void test_multiplication() {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_from_string("123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_multiply(bigInt1, bigInt2, bigInt3);
-    printf("Produs (bigInt1 * bigInt2): ");
-    bigInteger_print(bigInt3);
-    BigInteger *bigInt4 = bigInteger_multiply_new(bigInt1, bigInt2);
-    printf("Produs cu new (bigInt1 * bigInt2): ");
-    bigInteger_print(bigInt4);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
+    //variable declarations
+    BigInteger *zero = bigInteger_new();
+    bigInteger_assign(zero, "0");
+    BigInteger *unu = bigInteger_from_string("1");
+    BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *produs = bigInteger_new();
+    BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
+    BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
+    BigInteger *minus_nr_mare = bigInteger_from_string("-123456789123456789");
+    BigInteger *minus_nr_mare2 = bigInteger_clone(minus_nr_mare);
+
+    char *str = bigInteger_to_string(nr_mare);
+    printf("Nr mare ca string: %s\n", str);
+    free(str);
+
+    printf("Comparare (nr_mare si minus_nr_mare): %d\n", bigInteger_compare(nr_mare, minus_nr_mare));
+    printf("Comparare a valorilor absolute (|nr_mare| si |minus_nr_mare|): %d\n",bigInteger_absolut_compare(nr_mare, minus_nr_mare));
+
+    bigInteger_multiply(zero, unu, produs);
+    printf("Produs (zero * unu): ");
+    bigInteger_print(produs);
+    BigInteger *produs_new = bigInteger_multiply_new(unu, zero);
+    printf("Produs cu new (unu * zero): ");
+    bigInteger_print(produs_new);
+
+    bigInteger_multiply(zero, minus_unu, produs);
+    printf("Produs (zero * minus_unu): ");
+    bigInteger_print(produs);
+    produs_new = bigInteger_multiply_new(minus_unu, zero);
+    printf("Produs cu new (minus_unu * zero): ");
+    bigInteger_print(produs_new);
+
+    bigInteger_multiply(minus_nr_mare, minus_nr_mare, produs);
+    printf("Produs (minus_nr_mare * minus_nr_mare) - acelasi numar: ");
+    bigInteger_print(produs);
+
+    bigInteger_multiply(nr_mare, nr_mare2, produs);
+    printf("Produs (nr_mare * nr_mare2): ");
+    bigInteger_print(produs);
+    produs_new = bigInteger_multiply_new(nr_mare, minus_nr_mare);
+    printf("Produs cu new (nr_mare * minus_nr_mare): ");
+    bigInteger_print(produs_new);
+
+    bigInteger_multiply(minus_nr_mare, minus_nr_mare2, produs);
+    printf("Produs (minus_nr_mare * minus_nr_mare2): ");
+    bigInteger_print(produs);
+    produs_new = bigInteger_multiply_new(minus_nr_mare, nr_mare2);
+    printf("Produs cu new (minus_nr_mare * nr_mare2): ");
+    bigInteger_print(produs_new);
+
+    bigInteger_delete(zero);
+    bigInteger_delete(unu);
+    bigInteger_delete(minus_unu);
+    bigInteger_delete(produs);
+    bigInteger_delete(nr_mare);
+    bigInteger_delete(nr_mare2);
+    bigInteger_delete(minus_nr_mare);
+    bigInteger_delete(minus_nr_mare2);
+    bigInteger_delete(produs_new);
 }
 
 void test_division() {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_from_string("123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    BigInteger *bigInt4 = bigInteger_new();
-    bigInteger_divide(bigInt1, bigInt2, bigInt3);
-    printf("Catul impartirii (bigInt1 / bigInt2): ");
-    bigInteger_print(bigInt3);
-    printf("Restul impartirii (bigInt1 / bigInt2): ");
-    bigInteger_print(bigInt4);
-    BigInteger *bigInt5 = bigInteger_divide_new(bigInt1, bigInt2);
-    printf("Catul impartirii cu new (bigInt1 / bigInt2): ");
-    bigInteger_print(bigInt5);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
-    bigInteger_delete(bigInt5);
-}
+    //variable declarations
+    BigInteger *zero = bigInteger_new();
+    bigInteger_assign(zero, "0");
+    BigInteger *unu = bigInteger_from_string("1");
+    BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *cat = bigInteger_new();
+    BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
+    BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
+    BigInteger *minus_nr_mare = bigInteger_from_string("-123456789123456789");
+    BigInteger *minus_nr_mare2 = bigInteger_clone(minus_nr_mare);
 
-void test_modulo() {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_from_string("123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_modulo(bigInt1, bigInt2, bigInt3);
-    printf("Modulo (bigInt1 %% bigInt2): ");
-    bigInteger_print(bigInt3);
-    BigInteger *bigInt4 = bigInteger_modulo_new(bigInt1, bigInt2);
-    printf("Modulo cu new (bigInt1 %% bigInt2): ");
-    bigInteger_print(bigInt4);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
-}
+    char *str = bigInteger_to_string(nr_mare);
+    printf("Nr mare ca string: %s\n", str);
+    free(str);
 
-void test_power() {
-    BigInteger *bigInt1 = bigInteger_from_string("9");
-    BigInteger *bigInt2 = bigInteger_from_string("3");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_power(bigInt1, 12, bigInt3);
-    printf("Putere (bigInt1 ^ 12): ");
-    bigInteger_print(bigInt3);
-    BigInteger *bigInt4 = bigInteger_power_new(bigInt2, 3);
-    printf("Putere cu new (bigInt2 ^ 3): ");
-    bigInteger_print(bigInt4);
-    bigInteger_delete(bigInt1);
-    bigInteger_delete(bigInt2);
-    bigInteger_delete(bigInt3);
-    bigInteger_delete(bigInt4);
-}
+    printf("Comparare (nr_mare si minus_nr_mare): %d\n", bigInteger_compare(nr_mare, minus_nr_mare));
+    printf("Comparare a valorilor absolute (|nr_mare| si |minus_nr_mare|): %d\n",bigInteger_absolut_compare(nr_mare, minus_nr_mare));
 
-void test1 () {
-    BigInteger *bigInt1 = bigInteger_from_string("123456789");
-    BigInteger *bigInt2 = bigInteger_new();
-    bigInteger_assign(bigInt2, "123456789");
-    BigInteger *bigInt3 = bigInteger_new();
-    bigInteger_add(bigInt2, bigInt1, bigInt3);
-    printf("Suma (bigInt2 + bigInt1): ");
-    bigInteger_print(bigInt3);
+    bigInteger_divide(zero, unu, cat);
+    printf("Cat (zero / unu): ");
+    bigInteger_print(cat);
+    BigInteger *cat_new = bigInteger_divide_new(unu, zero);
+    printf("Cat cu new (unu / zero): ");
+    bigInteger_print(cat_new);
 
-    BigInteger *bigInt1_1 = bigInteger_clone(bigInt1);
-    BigInteger *bigInt3_1 = bigInteger_clone(bigInt3);
-    BigInteger *treis = bigInteger_new();
-    bigInteger_assign(treis, "3");
-    bigInteger_add(bigInt3_1, treis, bigInt3);
-    printf("Clona numarului 1: ");
-    bigInteger_print(bigInt1_1);
+    bigInteger_divide(zero, minus_unu, cat);
+    printf("Cat (zero / minus_unu): ");
+    bigInteger_print(cat);
+    cat_new = bigInteger_divide_new(minus_unu, zero);
+    printf("Cat cu new (minus_unu / zero): ");
+    bigInteger_print(cat_new);
 
-    bigInteger_delete(bigInt1);
-    bigInteger_print(bigInt1);
+    bigInteger_divide(minus_nr_mare, minus_nr_mare, cat);///BUG si la toate la care impartitorul e negativ
+    printf("Cat (minus_nr_mare / minus_nr_mare) - acelasi numar: ");
+    bigInteger_print(cat);
 
-    char *number_string = bigInteger_to_string(bigInt2);
-    printf("Numarul 2 ca string: %s\n", number_string);
-    printf("Comparatie (bigInt2 si bigInt3): %d\n", bigInteger_compare(bigInt2, bigInt3));
-    BigInteger *bigInt4 = bigInteger_new();
-    bigInteger_subtract(bigInt1_1, bigInt2, bigInt4);
-    printf("Diferenta (bigInt1_1 - bigInt2): ");
-    bigInteger_print(bigInt4);
+    bigInteger_divide(nr_mare, nr_mare2, cat);
+    printf("Cat (nr_mare / nr_mare2): ");
+    bigInteger_print(cat);
+    cat_new = bigInteger_divide_new(nr_mare, minus_nr_mare);
+    printf("Cat cu new (nr_mare / minus_nr_mare): ");
+    bigInteger_print(cat_new);
 
-    BigInteger *bigInt5 = bigInteger_add_new(bigInt2, bigInt3);
-    printf("Suma (bigInt2 + bigInt3): ");
-    bigInteger_print(bigInt5);
+    bigInteger_divide(minus_nr_mare, minus_nr_mare2, cat);
+    printf("Cat (minus_nr_mare / minus_nr_mare2): ");
+    bigInteger_print(cat);
+    cat_new = bigInteger_divide_new(minus_nr_mare, nr_mare2);
+    printf("Cat cu new (minus_nr_mare / nr_mare2): ");
+    bigInteger_print(cat_new);
 
-    BigInteger *bigInt6 = bigInteger_subtract_new(bigInt1_1, bigInt2);
-    printf("Diferenta cu new (bigInt1_1 - bigInt2): ");
-    bigInteger_print(bigInt6);
-
-    printf("Comparatie (bigInt2 si bigInt6): %d\n", bigInteger_compare(bigInt2, bigInt6));
-    BigInteger *cinci = bigInteger_from_string("5");
-    BigInteger *trei = bigInteger_from_string("3");
-    BigInteger *bigInt13 = bigInteger_subtract_new(cinci, trei);
-    printf("Diferenta (cinci - trei): ");
-    bigInteger_print(bigInt13);
-
-    BigInteger *bigInt14 = bigInteger_new();
-    bigInteger_multiply(cinci, trei, bigInt14);
-    printf("Produs (cinci * trei): ");
-    bigInteger_print(bigInt14);
-
-    BigInteger *bigInt15 = bigInteger_multiply_new(cinci, trei);
-    printf("Produscu new (cinci * trei): ");
-    bigInteger_print(bigInt15);
-
-    BigInteger  *cinci2 = bigInteger_from_string("-5");
-    BigInteger  *trei2 = bigInteger_from_string("-3");
-    BigInteger  *bigInt18 = bigInteger_new();
-    bigInteger_divide(trei2, cinci2, bigInt18);
-    printf("Catul impartirii (trei2 / cinci2): ");
-    bigInteger_print(bigInt18);
-
-    BigInteger *bigInt19 = bigInteger_divide_new(cinci2, trei2);
-    printf("Catul impartirii cu new (cinci2 / trei2): ");
-    bigInteger_print(bigInt19);
-
-    BigInteger *bigInt20 = bigInteger_new();
-    bigInteger_modulo(trei2, cinci2, bigInt20);
-    printf("Restul impartirii (trei2 %% cinci2): ");
-    bigInteger_print(bigInt20);
-
-    BigInteger *bigInt21 = bigInteger_modulo_new(cinci2, trei2);
-    printf("Restul impartirii cu new (cinci2 %% trei2): ");
-    bigInteger_print(bigInt21);
-
-    BigInteger *zero = bigInteger_from_string("0");
-    BigInteger *unu = bigInteger_from_string("-1");
-    BigInteger *bigInt24 = bigInteger_subtract_new(zero, unu);
-    printf("Diferenta (zero - unu): ");
-    bigInteger_print(bigInt24);
-
-    BigInteger *bigInt25 = bigInteger_add_new(zero, unu);
-    printf("Suma (zero + unu): ");
-    bigInteger_print(bigInt25);
-
-    BigInteger *bigInt26 = bigInteger_multiply_new(zero, unu);
-    printf("Produs (zero * unu): ");
-    bigInteger_print(bigInt26);
-
-    BigInteger *bigInt27 = bigInteger_divide_new(zero, unu);
-    printf("Catul impartirii (zero / unu): ");
-    bigInteger_print(bigInt27);
-
-    BigInteger *bigInt28 = bigInteger_modulo_new(zero, bigInt1_1);
-    printf("Restul impartirii (zero %% unu): ");
-    bigInteger_print(bigInt28);
+    bigInteger_delete(zero);
+    bigInteger_delete(unu);
+    bigInteger_delete(minus_unu);
+    bigInteger_delete(cat);
+    bigInteger_delete(nr_mare);
+    bigInteger_delete(nr_mare2);
+    bigInteger_delete(minus_nr_mare);
+    bigInteger_delete(minus_nr_mare2);
+    bigInteger_delete(cat_new);
 }
 
 int main() {
-    test1();
+    test_division();
     return 0;
 }
