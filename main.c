@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bigInteger.h"
-///Trebuie de adaudgat posibilitatea de trimitere ca rezultat a unui din parametri
+///Trebuie de adaugat posibilitatea de trimitere ca rezultat a unui din parametri
 
 /**Tests format: test_<function_name>()
  * variables: new/from_string/assign/clone
- * to_string
- * compare
  * functions with:
  * 0 and 1 all cases
  * positive and negative numbers all cases

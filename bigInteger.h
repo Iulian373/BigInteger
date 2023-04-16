@@ -158,7 +158,7 @@ BigInteger *bigInteger_modulo_new(BigInteger *bigInteger1, BigInteger *bigIntege
  * @param bigInteger The bigInteger to be shifted.
  * @param shift The number of digits to shift.
  */
-void bigInteger_shift_left(BigInteger *bigInteger, int shift);
+void bigInteger_shift_left(BigInteger *bigInteger, int shift); ///Maybe also shift right
 
 /**
  * @brief Prints a bigInteger.
