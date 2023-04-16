@@ -138,7 +138,7 @@ BigInteger *bigInteger_divide_new(BigInteger *bigInteger1, BigInteger *bigIntege
  *
  * @param bigInteger1 Reference to a bigInteger. It could be negative.
  * @param bigInteger2 Reference to a bigInteger. It could be negative.
- * @param result Reference to a bigInteger. It could be another bigInteger or one of the parameters.
+ * @param result Reference to a bigInteger. Natural number. It could be another bigInteger or one of the parameters.
  */
 void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result);
 
@@ -183,7 +183,7 @@ void bigInteger_leading_zeros(BigInteger *bigInteger);
 /**
  * @brief Computes bigInteger1 ^ power and store the result in the result parameter.
  * @param bigInteger1 Reference to a bigInteger.
- * @param power The power to which the bigInteger is raised.
+ * @param power The power to which the bigInteger is raised. Natural number.
  * @param result Reference to a bigInteger. It could be another bigInteger or one of the parameters.
  */
 void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result);
@@ -191,7 +191,23 @@ void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result);
 /**
  * @brief Computes bigInteger1 ^ power and returns a new bigInteger as result.
  * @param bigInteger1 Reference to a bigInteger.
- * @param power The power to which the bigInteger is raised.
+ * @param power The power to which the bigInteger is raised. Natural number.
  * @return Reference to a bigInteger.
  */
 BigInteger *bigInteger_power_new(BigInteger *bigInteger, int power);
+
+/**
+ * @brief Computes bigInteger1 ^ bigInteger2 and store the result in the result parameter.
+ * @param bigInteger1 Reference to a bigInteger.
+ * @param bigInteger2 Reference to a bigInteger (natural number). The power to which the bigInteger1 is raised.
+ * @param result Reference to a bigInteger. It could be another bigInteger or one of the parameters.
+ */
+void bigInteger_to_bigInt_power(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result);
+
+/**
+ * @brief Computes bigInteger1 ^ bigInteger2 and returns a new bigInteger as result.
+ * @param bigInteger1 Reference to a bigInteger.
+ * @param bigInteger2 Reference to a bigInteger (natural number). The power to which the bigInteger1 is raised.
+ * @return Reference to a bigInteger.
+ */
+BigInteger *bigInteger_to_bigInt_power_new(BigInteger *bigInteger1, BigInteger *bigInteger2);

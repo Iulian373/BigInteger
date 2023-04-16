@@ -43,7 +43,7 @@ BigInteger *bigInteger_from_string(const char *numberAsString) {
         int x = (numberAsString[0] == '-' || numberAsString[0] == '+') ? 0 : 1; //if there is sign in the string,we have to begin with the end of the string
         bigInt->digits[i] = numberAsString[size - i - x] - '0'; //convert char to int
     }
-    bigInteger_leading_zeros(bigInt);
+    ///bigInteger_leading_zeros(bigInt);
     return bigInt;
 }
 
@@ -59,6 +59,7 @@ void bigInteger_assign(BigInteger *bigInteger, const char *numberAsString) {
         int x = (numberAsString[0] == '-' || numberAsString[0] == '+') ? 0 : 1;
         bigInteger->digits[i] = numberAsString[size - i - x] - '0';
     }
+    bigInteger_leading_zeros(bigInteger);
 }
 
 BigInteger *bigInteger_clone(BigInteger *bigInteger) {
@@ -470,22 +471,27 @@ void bigInteger_leading_zeros(BigInteger *bigInteger) {
     }
 }
 
-void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
-    result->digits[0] = 1;
+void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {
     if (power == 0) {
         result->digits = realloc(result->digits, sizeof(int));
         result->size = 1;
+        result->sign = 1;
         result->digits[0] = 1;
         return;
     }
     if (power == 1) {
         result->digits = realloc(result->digits, sizeof(int) * bigInteger->size);
         result->size = bigInteger->size;
+        result->sign = bigInteger->sign;
         for (int i = 0; i < bigInteger->size; i++) {
             result->digits[i] = bigInteger->digits[i];
         }
         return;
     }
+    result->digits = realloc(result->digits, sizeof(int));
+    result->size = 1;
+    result->sign = 1;
+    result->digits[0] = 1;
     for (int i = 0; i < power; i++) {
         BigInteger *aux = bigInteger_clone(result);
         bigInteger_multiply(aux, bigInteger, result);
