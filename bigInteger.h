@@ -196,6 +196,7 @@ void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result);
  */
 BigInteger *bigInteger_power_new(BigInteger *bigInteger, int power);
 
+///Not implemented yet
 /**
  * @brief Computes bigInteger1 ^ bigInteger2 and store the result in the result parameter.
  * @param bigInteger1 Reference to a bigInteger.

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bigInteger.h"
-///Trebuie de adaugat posibilitatea de trimitere ca rezultat a unui din parametri
 
 /**Tests format: test_<function_name>()
  * variables: new/from_string/assign/clone
@@ -55,6 +54,19 @@ void test_addition() {
     suma_new = bigInteger_add_new(minus_nr_mare, nr_mare2);
     printf("Suma cu new (minus_nr_mare + nr_mare2): ");
     bigInteger_print(suma_new);
+
+    bigInteger_add(unu, zero, zero);
+    printf("Suma (unu + zero) pastrat in zero: ");
+    bigInteger_print(zero);
+    suma_new = bigInteger_add_new(unu, unu);
+    printf("Suma cu new (unu + unu): ");
+    bigInteger_print(suma_new);
+    bigInteger_add(unu, zero, unu);
+    printf("Suma (unu + zero) pastrat in unu: ");
+    bigInteger_print(unu);
+    bigInteger_add(unu, unu, unu);
+    printf("Suma (unu + unu) pastrat in unu: ");
+    bigInteger_print(unu);
 
     bigInteger_delete(zero);
     bigInteger_delete(unu);
@@ -111,6 +123,19 @@ void test_subtraction() {
     printf("Diferenta cu new (minus_nr_mare - nr_mare2): ");
     bigInteger_print(diferenta_new);
 
+    bigInteger_subtract(unu, zero, zero);
+    printf("Diferenta (unu - zero) pastrat in zero: ");
+    bigInteger_print(zero);
+    diferenta_new = bigInteger_subtract_new(unu, unu);
+    printf("Diferenta cu new (unu - unu): ");
+    bigInteger_print(diferenta_new);
+    bigInteger_subtract(unu, zero, unu);
+    printf("Diferenta (unu - zero) pastrat in unu: ");
+    bigInteger_print(unu);
+    bigInteger_subtract(unu, unu, unu);
+    printf("Diferenta (unu - unu) pastrat in unu: ");
+    bigInteger_print(unu);
+
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
@@ -128,6 +153,7 @@ void test_multiplication() {
     bigInteger_assign(zero, "0");
     BigInteger *unu = bigInteger_from_string("1");
     BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *trei = bigInteger_from_string("3");
     BigInteger *produs = bigInteger_new();
     BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
     BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
@@ -166,9 +192,23 @@ void test_multiplication() {
     printf("Produs cu new (minus_nr_mare * nr_mare2): ");
     bigInteger_print(produs_new);
 
+    bigInteger_multiply(trei, unu, unu);
+    printf("Produs (trei * unu) pastrat in unu: ");
+    bigInteger_print(unu);
+    produs_new = bigInteger_multiply_new(trei, unu);
+    printf("Produs cu new (trei * unu): ");
+    bigInteger_print(produs_new);
+    bigInteger_multiply(trei, trei, trei);
+    printf("Produs (trei * trei) pastrat in trei: ");
+    bigInteger_print(trei);
+    produs_new = bigInteger_multiply_new(trei, trei);
+    printf("Produs cu new (trei * trei): ");
+    bigInteger_print(produs_new);
+
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
+    bigInteger_delete(trei);
     bigInteger_delete(produs);
     bigInteger_delete(nr_mare);
     bigInteger_delete(nr_mare2);
@@ -183,6 +223,8 @@ void test_division() {
     bigInteger_assign(zero, "0");
     BigInteger *unu = bigInteger_from_string("1");
     BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *sapte = bigInteger_from_string("7");
+    BigInteger *trei = bigInteger_from_string("3");
     BigInteger *cat = bigInteger_new();
     BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
     BigInteger *nr_mare2 = bigInteger_clone(nr_mare);
@@ -221,9 +263,27 @@ void test_division() {
     printf("Cat cu new (minus_nr_mare / nr_mare2): ");
     bigInteger_print(cat_new);
 
+    bigInteger_divide(trei, unu, unu);
+    printf("Cat (trei / unu) pastrat in unu: ");
+    bigInteger_print(unu);
+    cat_new = bigInteger_divide_new(trei, unu);
+    printf("Cat cu new (trei / unu): ");
+    bigInteger_print(cat_new);
+    bigInteger_divide(trei, trei, trei);
+    printf("Cat (trei / trei) pastrat in trei: ");
+    bigInteger_print(trei);
+    bigInteger_divide(sapte, trei, sapte);
+    printf("Cat (sapte / trei) pastrat in sapte: ");
+    bigInteger_print(sapte);
+    cat_new = bigInteger_divide_new(sapte, unu);
+    printf("Cat cu new (sapte / unu): ");
+    bigInteger_print(cat_new);
+
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
+    bigInteger_delete(sapte);
+    bigInteger_delete(trei);
     bigInteger_delete(cat);
     bigInteger_delete(nr_mare);
     bigInteger_delete(nr_mare2);
@@ -272,6 +332,19 @@ void test_modulo() {
     printf("Rest cu new (minus_cinci %% minus_trei): ");
     bigInteger_print(rest_new);
 
+    bigInteger_modulo(cinci, trei, trei);
+    printf("Rest (cinci %% trei) pastrat in trei: ");
+    bigInteger_print(trei);
+    rest_new = bigInteger_modulo_new(cinci, cinci);
+    printf("Rest cu new (cinci %% cinci): ");
+    bigInteger_print(rest_new);
+    bigInteger_modulo(cinci, cinci, cinci);
+    printf("Rest (cinci %% cinci) pastrat in cinci: ");
+    bigInteger_print(cinci);
+    rest_new = bigInteger_modulo_new(cinci, trei);
+    printf("Rest cu new (cinci %% trei): ");
+    bigInteger_print(rest_new);
+
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
@@ -289,19 +362,20 @@ void test_power() {
     bigInteger_assign(zero, "0");
     BigInteger *unu = bigInteger_from_string("1");
     BigInteger *minus_unu = bigInteger_from_string("-1");
+    BigInteger *trei = bigInteger_from_string("3");
     BigInteger *putere = bigInteger_new();
     BigInteger *nr_mare = bigInteger_from_string("123456789123456789");
     BigInteger *minus_nr_mare = bigInteger_from_string("-123456789123456789");
 
     bigInteger_power(zero, 1, putere);
-    printf("Putere (zero la puterea unu): ");
+    printf("Putere (zero la puterea 1): ");
     bigInteger_print(putere);
     BigInteger *putere_new = bigInteger_power_new(unu, 0);
-    printf("Putere cu new (unu la puterea zero): ");
+    printf("Putere cu new (unu la puterea 0): ");
     bigInteger_print(putere_new);
 
     putere_new = bigInteger_power_new(minus_unu, 3);
-    printf("Putere cu new (minus_unu la puterea trei): ");
+    printf("Putere cu new (minus_unu la puterea 3): ");
     bigInteger_print(putere_new);
 
     bigInteger_power(nr_mare, 100, putere);
@@ -313,9 +387,17 @@ void test_power() {
     printf("Putere cu new (minus_nr_mare la puterea 91): ");
     bigInteger_print(putere_new);
 
+    bigInteger_power(trei, 3, trei);
+    printf("Putere (trei la puterea 3) pastrat in trei: ");
+    bigInteger_print(trei);
+    putere_new = bigInteger_power_new(trei, 2);
+    printf("Putere cu new (trei la puterea 2): ");
+    bigInteger_print(putere_new);
+
     bigInteger_delete(zero);
     bigInteger_delete(unu);
     bigInteger_delete(minus_unu);
+    bigInteger_delete(trei);
     bigInteger_delete(putere);
     bigInteger_delete(nr_mare);
     bigInteger_delete(minus_nr_mare);

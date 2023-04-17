@@ -3,8 +3,6 @@
 #include <string.h>
 #include "bigInteger.h"
 
-///It could be another bigInteger or one of the parameters. Did not implement this part!!! Have to do it later
-
 struct _BigInteger {
     int *digits;
     int sign;
@@ -157,7 +155,15 @@ int bigInteger_absolut_compare(BigInteger *bigInteger1, BigInteger *bigInteger2)
     }
 }
 
-void bigInteger_add(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
+void bigInteger_add(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger1 == result || bigInteger2 == result) {
+        temp = bigInteger_new();
+        bigInteger_add(bigInteger1, bigInteger2, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (bigInteger1->sign == bigInteger2->sign) {
         result->sign = bigInteger1->sign;
         int size = bigInteger1->size > bigInteger2->size ? bigInteger1->size : bigInteger2->size;
@@ -219,7 +225,15 @@ void bigInteger_print(BigInteger *bigInteger) {
     printf("\n");
 }
 
-void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
+void bigInteger_subtract(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger1 == result || bigInteger2 == result) {
+        temp = bigInteger_new();
+        bigInteger_subtract(bigInteger1, bigInteger2, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (bigInteger1->sign == bigInteger2->sign) {
         if (bigInteger_absolut_compare(bigInteger1, bigInteger2) == 1) {
             result->sign = bigInteger1->sign;
@@ -310,7 +324,15 @@ BigInteger *bigInteger_subtract_new(BigInteger *bigInteger1, BigInteger *bigInte
     return result;
 }
 
-void bigInteger_multiply(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
+void bigInteger_multiply(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger1 == result || bigInteger2 == result) {
+        temp = bigInteger_new();
+        bigInteger_multiply(bigInteger1, bigInteger2, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (bigInteger1->size == 0 || bigInteger2->size == 0) {
         result->size = 0;
         return;
@@ -370,7 +392,15 @@ void bigInteger_shift_left(BigInteger *bigInteger, int shift) {
     }
 }
 
-void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
+void bigInteger_divide(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger1 == result || bigInteger2 == result) {
+        temp = bigInteger_new();
+        bigInteger_divide(bigInteger1, bigInteger2, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (bigInteger2->size == 1 && bigInteger2->digits[0] == 0) {
         printf("Division by zero!\n");
         return;
@@ -427,7 +457,15 @@ BigInteger *bigInteger_divide_new(BigInteger *bigInteger1, BigInteger *bigIntege
     return result;
 }
 
-void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {///trebuie sa fac cu posibilitatea de trimitere a aceluiasi parametru
+void bigInteger_modulo(BigInteger *bigInteger1, BigInteger *bigInteger2, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger1 == result || bigInteger2 == result) {
+        temp = bigInteger_new();
+        bigInteger_modulo(bigInteger1, bigInteger2, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (bigInteger2->size == 1 && bigInteger2->digits[0] == 0) {
         printf("Division by zero!\n");
         return;
@@ -472,6 +510,14 @@ void bigInteger_leading_zeros(BigInteger *bigInteger) {
 }
 
 void bigInteger_power(BigInteger *bigInteger, int power, BigInteger *result) {
+    BigInteger *temp;
+    if (bigInteger == result) {
+        temp = bigInteger_new();
+        bigInteger_power(bigInteger, power, temp);
+        bigInteger_assign(result, bigInteger_to_string(temp));
+        bigInteger_delete(temp);
+        return;
+    }
     if (power == 0) {
         result->digits = realloc(result->digits, sizeof(int));
         result->size = 1;
